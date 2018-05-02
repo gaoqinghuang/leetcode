@@ -11,7 +11,7 @@ function find($data,$num)
     {
         $row = 0;
         $col = $cols-1;
-        while($row < $rows and $col>=0)
+        while($row < $rows and $col >= 0)
         {
             if($data[$row][$col] == $num)
             {
