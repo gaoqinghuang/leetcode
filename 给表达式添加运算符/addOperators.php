@@ -6,7 +6,7 @@
 输入: num = "123", target = 6
 输出: ["1+2+3", "1*2*3"]*/
 
-//时间复杂度过高O(n^2)
+//时间复杂度过高O(n*4^n)
 function addOperators($num, $target)
 {
     $count = strlen($num);
