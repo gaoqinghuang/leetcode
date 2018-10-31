@@ -37,5 +37,5 @@ function addOperators($num, $target)
     return $result;
 }
 
-$reuslt = $this->addOperators('3456237490',9191);
+$reuslt = addOperators('3456237490',9191);
 dump($reuslt);
