@@ -14,21 +14,13 @@ function islandPerimeter($grid)
         foreach ($value as $k => $v) {
             if ($v == 1) {
                 $L += 4;
-                //上
-                if (isset($grid[$key - 1][$k]) && $grid[$key - 1][$k] == 1) {
-                    $L -= 1;
-                }
                 //下
                 if (isset($grid[$key + 1][$k]) && $grid[$key + 1][$k] == 1) {
-                    $L -= 1;
-                }
-                //左
-                if (isset($grid[$key][$k - 1]) && $grid[$key][$k - 1] == 1) {
-                    $L -= 1;
+                    $L -= 2;
                 }
                 //右
                 if (isset($grid[$key][$k + 1]) && $grid[$key][$k + 1] == 1) {
-                    $L -= 1;
+                    $L -= 2;
                 }
             }
         }
