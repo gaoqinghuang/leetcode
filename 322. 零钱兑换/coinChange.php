@@ -6,40 +6,25 @@ header("Content-type:text/html;charset=utf-8");
 
 function coinChange($coins, $amount)
 {
-    $result = [];
-    rsort($coins);
-    $max = $coins[0];
-    $res = [$max];
-
-    while (true) {
-        $sum = array_sum($res);
-        if ($sum > $amount) {
-            //换个小点的数
-            $end = end($res);
-            $key = array_search($end, $coins);
-            if (isset($coins[$key + 1])) {
-                //最后一个key换掉
-                array_pop($res);
-                $res[] = $coins[$key + 1];
-            } else {
-                break;
+    $max   = $amount + 1;
+    $dp    = array_fill(0, $max, $max);
+    $dp[0] = 0;
+    //一定包含一个这个数，然后一个一个往上加，get
+    for ($i = 1; $i <= $amount; $i++) {
+        for ($j = 0; $j < count($coins); $j++) {
+            if ($coins[$j] <= $i) {
+                $dp[$i] = min($dp[$i], $dp[$i - $coins[$j]] + 1);
             }
-        } elseif ($sum == $amount) {
-            $result = $res;
-            break;
-        } else {
-            //小于的话加上一个自己
-            $res[] = end($res);
         }
     }
-    return $result ? count($result) : -1;
+
+    return $dp[$amount] > $amount ? -1 : $dp[$amount];
 }
 
-$coins  = [1, 4, 2];
+$coins  = [5, 2, 4];
 $amount = 11;
 
-if (coinChange($coins, $amount) == 4) {
-
+if (coinChange($coins, $amount) == 3) {
     echo "成功";
 } else {
     echo "失败";
