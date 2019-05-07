@@ -15,6 +15,12 @@ class help
         dump($array);
     }
 
+    /**
+     * @param $array
+     * @param $p
+     * @param $r
+     * @return array
+     */
     private function mergeSort($array, $p, $r)
     {
         if ($p < $r) {
