@@ -29,13 +29,14 @@ class help
         dump($this->squareMatrixMultiply($a, $b) == $this->strassen($a, $b) ? 'success' : 'fail');
     }
 
+
     /**
      * 暴力相乘 时间复杂度 n³
-     * @param $a
-     * @param $b
+     * @param array $A
+     * @param array $B
      * @return array
      */
-    private function squareMatrixMultiply($A, $B): array
+    private function squareMatrixMultiply(array $A, array $B): array
     {
         $c = [];
         $n = count($B);
