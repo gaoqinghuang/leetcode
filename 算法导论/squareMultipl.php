@@ -97,13 +97,13 @@ class help
         $S9  = $this->squareReduce($A11, $A21);
         $S10 = $this->squareAdd($B11, $B12);
 
-        $P1 = $this->squareMatrixMultiply($A11, $S1);
-        $P2 = $this->squareMatrixMultiply($S2, $B22);
-        $P3 = $this->squareMatrixMultiply($S3, $B11);
-        $P4 = $this->squareMatrixMultiply($A22, $S4);
-        $P5 = $this->squareMatrixMultiply($S5, $S6);
-        $P6 = $this->squareMatrixMultiply($S7, $S8);
-        $P7 = $this->squareMatrixMultiply($S9, $S10);
+        $P1 = $this->squareMatrixMultiplyRecursive($A11, $S1);
+        $P2 = $this->squareMatrixMultiplyRecursive($S2, $B22);
+        $P3 = $this->squareMatrixMultiplyRecursive($S3, $B11);
+        $P4 = $this->squareMatrixMultiplyRecursive($A22, $S4);
+        $P5 = $this->squareMatrixMultiplyRecursive($S5, $S6);
+        $P6 = $this->squareMatrixMultiplyRecursive($S7, $S8);
+        $P7 = $this->squareMatrixMultiplyRecursive($S9, $S10);
 
         $a = $this->squareAdd($this->squareReduce($this->squareAdd($P5, $P4), $P2), $P6);
         $b = $this->squareAdd($P1, $P2);
