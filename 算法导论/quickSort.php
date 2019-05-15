@@ -19,7 +19,7 @@ class help
     }
 
     /**
-     * 快排 时间复杂度n*lgn
+     * 快排 时间复杂度n*n
      * @param $array
      * @param $p
      * @param $r
