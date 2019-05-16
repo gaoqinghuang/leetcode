@@ -42,8 +42,9 @@ class help
             $B[$C[$A[$i]] - 1] = $A[$i];
             $C[$A[$i]]         = $C[$A[$i]] - 1;
         }
-        //这里的ksort 在很多语言中是不需要的，这里是为了希纳是清晰
-        return ksort($B);
+        //这里的ksort 在很多语言中是不需要的，这里是为了输出是清晰
+        ksort($B);
+        return $B;
     }
 }
 
