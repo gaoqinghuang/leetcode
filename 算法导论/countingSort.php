@@ -21,7 +21,7 @@ class help
      * 计数排序,时间复杂度n,站的空间太多了
      * @param $A
      * @param $k
-     * @return bool
+     * @return array
      */
     private function countingSort($A, $k)
     {
