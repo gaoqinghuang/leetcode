@@ -34,7 +34,7 @@ import (
 //著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 
 func main() {
-    arr := []int{1,2,3,4,5}
+    arr := []int{1, 2, 3, 4, 5}
     k := 4
     x := -1
     fmt.Println(findClosestElements(arr, k, x))
@@ -55,7 +55,7 @@ func findClosestElements(arr []int, k int, x int) []int {
             return true
         }
         //再按数字大小比较，小的在前面
-        return arr[i]<arr[j]
+        return arr[i] < arr[j]
     })
 
     //加回去
@@ -65,10 +65,10 @@ func findClosestElements(arr []int, k int, x int) []int {
     //截取
     result := arr[0:k]
     sort.Ints(result)
-    return  result
+    return result
 }
 
-func absInt(n int)  int{
+func absInt(n int) int {
     if n < 0 {
         return -n
     }
