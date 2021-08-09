@@ -85,7 +85,6 @@ func main() {
 
 // 移除注释
 func removeComments(source []string) []string {
-    //先处理 //的
     first := 0      //0代表无，1代表是//，2代表是/*
     before := false //前一个字符有匹配到注释符号，待第二个字符匹配
     result := make([]string, 0)
