@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"sort"
+)
 
 //
 //有一些工作：difficulty[i] 表示第 i 个工作的难度，profit[i] 表示第 i 个工作的收益。
@@ -13,14 +16,14 @@ import "fmt"
 //
 //我们能得到的最大收益是多少？
 //
-// 
+//
 //
 //示例：
 //
 //输入: difficulty = [2,4,6,8,10], profit = [10,20,30,40,50], worker = [4,5,6,7]
 //输出: 100
 //解释: 工人被分配的工作难度是 [4,4,6,6] ，分别获得 [20,20,30,30] 的收益。
-// 
+//
 //
 //提示:
 //
@@ -33,26 +36,45 @@ import "fmt"
 //著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 
 func main() {
-	fmt.Println(maxProfitAssignment([]int{2,4,6,8,10},[]int{10,20,30,40,50},[]int{4,5,6,7}))
+	fmt.Println(maxProfitAssignment([]int{5,50,92,21,24,70,17,63,30,53}, []int{68,100,3,99,56,43,26,93,55,25}, []int{96,3,55,30,11,58,68,36,26,1}))
+}
+
+type d struct {
+	Difficulty int
+	Profit int
 }
 
 func maxProfitAssignment(difficulty []int, profit []int, worker []int) int {
-	result := 0
-	//算出每个工人最接近的收入
-	for _,w := range worker {
-		result += getOneMaxProfitAssignment(difficulty,profit,w)
-	}
-
-	return result
-}
-
-func getOneMaxProfitAssignment(difficulty []int, profit []int, worker int)  int{
-	result := 0
-
-	for k,v := range difficulty {
-		if worker >= v && result < profit[k] {
-			result = profit[k]
+	//排序
+	jobs := make([]*d,len(difficulty))
+	for k := range difficulty {
+		jobs[k] = &d{
+			Difficulty:difficulty[k],
+			Profit:profit[k],
 		}
 	}
+	sort.Ints(worker)
+	sort.Slice(jobs, func(i, j int) bool {
+		return jobs[i].Difficulty < jobs[j].Difficulty
+	})
+	result := 0
+
+	var best, i int
+	for _, w := range worker {
+		for i < len(jobs) && w >= jobs[i].Difficulty   {
+			best = maxInt(best, jobs[i].Profit)
+			i++
+		}
+		result += best
+	}
+
 	return result
 }
+
+func maxInt(a, b int) int {
+	if a > b {
+		return a
+	}
+	return b
+}
+
