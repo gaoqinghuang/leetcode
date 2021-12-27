@@ -39,29 +39,24 @@ import "fmt"
 //著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 
 func main() {
-	//到达每个数的概率 //todo 不会了
-	fmt.Println(new21Game(10,1, 10))
+	//到达每个数的概率
+	fmt.Println(new21Game(6,1, 10))
 }
 func new21Game(n int, k int, maxPts int) float64 {
-	result := float64(0)
-	for i := k; i <= n; i++ {
-		result += one(i,maxPts)
+	if k == 0 {
+		return 1.0
 	}
-	return result
+	dp := make([]float64, k + maxPts)
+	for i := k; i <= n && i < k + maxPts; i++ {
+		dp[i] = 1.0
+	}
+	fmt.Println(dp)
+	for i := k - 1; i >= 0; i-- {
+		for j := 1; j <= maxPts; j++ {
+			dp[i] += dp[i + j] / float64(maxPts)
+		}
+	}
+	fmt.Println(dp)
+	return dp[0]
 }
 
-//某个数的概率
-func one(num int, maxPts int) float64 {
-	if num <= maxPts {
-		result := 1 / float64(maxPts)
-		for i := 1; i < num; i++ {
-			result += one(i, maxPts) * 1 / float64(maxPts)
-		}
-		return result
-	}
-	result := float64(0)
-	for i := 1; i <= maxPts; i++ {
-		result += one(num-i, maxPts) * 1 / float64(maxPts)
-	}
-	return result
-}
