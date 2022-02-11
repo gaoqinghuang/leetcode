@@ -43,19 +43,11 @@ import "fmt"
 //著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 
 func main() {
-	fmt.Println(sumOfBeauties([]int{1, 2, 3, 4, 5, 7, 8, 9, 10}))
+	fmt.Println(sumOfBeauties([]int{3, 13, 10, 3, 3, 12, 20, 16}))
 }
 
 func sumOfBeauties(nums []int) int {
 	result := 0
-
-	preHigh := make([]int, len(nums))
-	preHigh[1] = nums[0]
-	//获取左边最大
-	for i := 2; i < len(nums)-1; i++ {
-		preHigh[i] = max(nums[i-1], preHigh[i-1])
-	}
-
 	//或者右边最小
 	lastLow := make([]int, len(nums))
 	lastLow[len(nums)-2] = nums[len(nums)-1]
@@ -63,29 +55,28 @@ func sumOfBeauties(nums []int) int {
 		lastLow[i] = min(nums[i+1], lastLow[i+1])
 	}
 
+	preHigh := nums[0]
 	for i := 1; i < len(nums)-1; i++ {
 
 		//非上升
 		if nums[i-1] >= nums[i] || nums[i+1] <= nums[i] {
+			if preHigh < nums[i] {
+				preHigh = nums[i]
+			}
 			continue
 		}
 		result++
 
 		//是否再得一分
-		if nums[i] > preHigh[i] && nums[i] < lastLow[i] {
+		if nums[i] > preHigh && nums[i] < lastLow[i] {
 			result++
 		}
-
+		if preHigh < nums[i] {
+			preHigh = nums[i]
+		}
 	}
 
 	return result
-}
-
-func max(a, b int) int {
-	if a < b {
-		return b
-	}
-	return a
 }
 
 func min(a, b int) int {
