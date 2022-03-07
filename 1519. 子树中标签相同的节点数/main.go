@@ -73,8 +73,8 @@ func main() {
 
 //通过edges深度搜索已有的值，然后比较是否相等,但是这样只能得到一个，这里是需要的全部，从头到尾相同数字只需要一次
 func countSubTrees(n int, edges [][]int, labels string) []int {
-	edgesMB := make(map[int][]int, 0)
-	edgesM := make(map[int][]int, 0)
+	edgesMB := make(map[int][]int, 0)//这里是双向的
+	edgesM := make(map[int][]int, 0)//这里只有正向的
 
 	for _, edge := range edges {
 		k := edge[0]
