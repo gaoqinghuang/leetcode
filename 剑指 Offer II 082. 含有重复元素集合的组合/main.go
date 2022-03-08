@@ -76,7 +76,7 @@ func main() {
 	////b := append(a,2)
 	////c := append(a,4)
 	//fmt.Println(temArr)
-	fmt.Println(combinationSum3([]int{2,5,2,1,2},10))
+	fmt.Println(combinationSum2([]int{1,2,3,4,5},10))
 }
 
 type tem struct {
@@ -134,29 +134,3 @@ func stringToIntSlice(s string) []int {
 	return result
 }
 
-
-func combinationSum3(candidates []int, target int) (res [][]int) {
-	sort.Ints(candidates)
-
-	var (
-		path []int
-		dfs func(int, int)
-	)
-	dfs = func(idx, cur int) {
-		if cur == target {
-			res = append(res, append([]int{}, path...))
-			return
-		}
-		for i := idx; i < len(candidates) && cur + candidates[i] <= target; i ++ {
-			if i > idx && candidates[i] == candidates[i - 1] {
-				continue
-			}
-			path = append(path, candidates[i])
-			dfs(i + 1, cur + candidates[i])
-			path = path[: len(path) - 1]
-		}
-	}
-
-	dfs(0, 0)
-	return
-}
