@@ -28,72 +28,71 @@ import "fmt"
 //著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 
 func main() {
-	fmt.Println(solveNQueens(4))
+	fmt.Println(solveNQueens(5))
 }
 
 var res [][]string
 
 func solveNQueens(n int) [][]string {
 	res = make([][]string, 0)
-	resTem := make([][]string,0)
+	resTem := make([]string,0)
 	backtrack(0, n, resTem)
 	return res
 }
 
 //first  第二行的了，第一个位置
-func backtrack(first,n int,resTem [][]string)  {
+func backtrack(first,n int,resTem []string)  {
 	if len(resTem) == n{
-		res = resTem
+		res = append(res,append([]string{},resTem...))
 		return
 	}
-	if len(res)>0 {
-		return
-	}
+
 	for i:= 0;i<n;i++ {//first第几行  i就是第几列了
-		if len(res)>0 {
-			return
-		}
 		if !check(resTem,i) {
 			continue
 		}
-		re := make([]string,n)
+		re := ""
 		for k:=0;k<n ;k++ {
-			re[k]= "."
+			if k == i {
+				re += "Q"
+			}else {
+				re += "."
+			}
+
 		}
-		re[i] = "Q"
 		resTem = append(resTem,re)
 		backtrack(first+1,n,resTem)
-		if len(res)>0 {
-			return
-		}
-		if first == len(resTem)-1{
-			resTem = resTem[0:len(resTem)-1]
-		}
+		resTem = resTem[0:len(resTem)-1]
 	}
 }
 
-func check(resTem [][]string,i int) bool {
+func check(resTem []string,i int) bool {
 	if len(resTem) == 0 {
 		return true
 	}
-	//相同列
-	for _,re := range resTem {
-		if re[i] == "Q"{
-			return false
-		}
 
-	}
-	//左上角
-	if i != 0 {//一定有左上角
-		if resTem[len(resTem)-1][i-1] == "Q" {
+	leftS := i
+	rightS := i
+	for k:=len(resTem)-1;k>=0;k--  {
+		//相同列
+		if resTem[k][i] == 'Q'{
 			return false
 		}
-	}
-	//右上角
-	if i != len(resTem[0])-1 {//一定有右上角
-		if resTem[len(resTem)-1][i+1] == "Q" {
-			return false
+		//左上角
+		leftS--
+		if leftS>=0 {
+			if resTem[k][leftS] == 'Q' {
+				return false
+			}
+		}
+		//右上角
+		rightS++
+		if rightS < len(resTem[0]) {
+			if resTem[k][rightS] == 'Q' {
+				return false
+			}
 		}
 	}
+
 	return true
 }
