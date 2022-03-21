@@ -13,7 +13,7 @@ import (
 //
 //注意，只要餐品下标不同，就可以认为是不同的餐品，即便它们的美味程度相同。
 //
-// 
+//
 //
 //示例 1：
 //
@@ -26,7 +26,7 @@ import (
 //输入：deliciousness = [1,1,1,3,3,3,7]
 //输出：15
 //解释：大餐的美味程度组合为 3 种 (1,1) ，9 种 (1,3) ，和 3 种 (1,7) 。
-// 
+//
 //
 //提示：
 //
@@ -38,46 +38,51 @@ import (
 //著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 
 func main() {
-	fmt.Println(countPairs([]int{1,1,1,3,3,3,7}))
+	fmt.Println(countPairs([]int{1, 1, 1, 3, 3, 3, 7}))
+	//fmt.Println(countPairs([]int{1, 3}))
 }
 
-
-
-
-
-
-
-
-
-
-
-
-func countPairs(deliciousness []int) int {//有相同的数
+func countPairs(deliciousness []int) int { //有相同的数
 	remainder := 1000000007
 	result := 0
 	sort.Ints(deliciousness)
-	pow2Arr := make([]int,22)
+	pow2Arr := make([]int, 1, 22)
 	pow2Arr[0] = 1
-	for i:=1;i<22;i++ {
-		pow2Arr[i] = pow2Arr[i-1]*2
+	for i := 1; i < 22; i++ {
+		if deliciousness[len(deliciousness)-1] < pow2Arr[i-1] {
+			break
+		}
+		pow2Arr = append(pow2Arr, pow2Arr[i-1]*2)
 	}
-	deliciousnessMap := make(map[int]int,0)
-	for _,v := range  deliciousness{
+	deliciousnessMap := make(map[int]int, 0)
+	for _, v := range deliciousness {
 		deliciousnessMap[v]++
 	}
 
-	for _,pow2 := range pow2Arr {
-		for _,v := range deliciousnessMap {//这里会翻倍 todo
-			if v> pow2 {
+	same := make(map[int]bool)
+	for _, pow2 := range pow2Arr {
+		for _, v := range deliciousness {
+			if v > pow2/2 {
 				break
 			}
 			if deliciousnessMap[pow2-v] > 0 {
-				result += deliciousnessMap[pow2-v]
-				result %= remainder
+				if pow2-v == v {
+					if same[v] {
+						continue
+					}
+					same[v] = true
+					//相同的数
+					result += deliciousnessMap[pow2-v] * (deliciousnessMap[pow2-v] - 1) / 2
+					result %= remainder
+				} else {
+					result += deliciousnessMap[pow2-v]
+					result %= remainder
+				}
+
 			}
 
 		}
 	}
-	
+
 	return result
 }
