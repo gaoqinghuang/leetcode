@@ -34,21 +34,22 @@ func main() {
 	fmt.Println(permute([]int{1, 2, 3}))
 }
 
+var res [][]int
 func permute(nums []int) [][]int {
-	res := make([][]int, 0)
-	backtrack(0, nums, res, len(nums))
+	res = make([][]int, 0)
+	backtrack(0, nums, len(nums))
 	return res
 }
 
 //回溯法
-func backtrack(first int, output []int, res [][]int, n int) {
+func backtrack(first int, output []int,  n int) {
 	if first == n {
-		res = append(res, output)
+		res = append(res, append([]int(nil), output...))
 		return
 	}
 	for i := first; i < n; i++ {
 		output[i], output[first] = output[first], output[i]
-		backtrack(first+1, output, res, n)
+		backtrack(first+1, output, n)
 		output[i], output[first] = output[first], output[i]
 	}
 }
