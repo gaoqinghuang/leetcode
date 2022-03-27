@@ -1,5 +1,7 @@
 package main
 
+import "fmt"
+
 //存在一个 无向图 ，图中有 n 个节点。其中每个节点都有一个介于 0 到 n - 1 之间的唯一编号。给你一个二维数组 graph ，其中 graph[u] 是一个节点数组，由节点 u 的邻接节点组成。形式上，对于 graph[u] 中的每个 v ，都存在一条位于节点 u 和节点 v 之间的无向边。该无向图同时具有以下属性：
 //不存在自环（graph[u] 不包含 u）。
 //不存在平行边（graph[u] 不包含重复值）。
@@ -9,7 +11,7 @@ package main
 //
 //如果图是二分图，返回 true ；否则，返回 false 。
 //
-// 
+//
 //
 //示例 1：
 //
@@ -23,7 +25,7 @@ package main
 //输入：graph = [[1,3],[0,2],[1,3],[0,2]]
 //输出：true
 //解释：可以将节点分成两组: {0, 2} 和 {1, 3} 。
-// 
+//
 //
 //提示：
 //
@@ -40,10 +42,46 @@ package main
 //著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 
 func main() {
-
+	//fmt.Println(isBipartite([][]int{{1, 2, 3}, {0, 2}, {0, 1, 3}, {0, 2}}))
+	fmt.Println(isBipartite([][]int{{1, 3}, {0, 2}, {1, 3}, {0, 2}}))
+	//fmt.Println(isBipartite([][]int{{4, 1}, {0, 2}, {1, 3}, {2, 4}, {3, 0}}))
 }
 
 //如果 a属于一边，那b一定属于另外一边
 func isBipartite(graph [][]int) bool {
-	return false
+	//访问过的
+	result = true
+	color = make([]int, len(graph))
+	for i := 0; i < len(graph); i++ {
+		if !result {
+			return result
+		}
+		if color[i] != 0 {
+			continue
+		}
+		dfs(i, 1, graph)
+	}
+	return result
+}
+
+var color []int //0没染1红2绿
+var result bool
+
+func dfs(i int, nowC int, graph [][]int) {
+	color[i] = nowC
+	nextC := 1
+	if nowC == 1 {
+		nextC = 2
+	}
+	for _, v := range graph[i] {
+		if color[v] == 0 { //还没染色
+			dfs(v, nextC, graph)
+			if !result {
+				return
+			}
+		} else if color[v] == nowC {
+			result = false
+			return
+		}
+	}
 }
