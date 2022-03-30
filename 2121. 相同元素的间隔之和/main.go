@@ -1,5 +1,7 @@
 package main
 
+import "fmt"
+
 //给你一个下标从 0 开始、由 n 个整数组成的数组 arr 。
 //
 //arr 中两个元素的 间隔 定义为它们下标之间的 绝对差 。更正式地，arr[i] 和 arr[j] 之间的间隔是 |i - j| 。
@@ -44,10 +46,51 @@ package main
 //著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 
 func main() {
+	fmt.Println(getDistances([]int{2,1,3,1,2,3,3}))
+}
+
+
+
+var result []int64
+//不对
+func getDistances(arr []int) []int64 {
+	sumNumMap := make(map[int][]int)
+	//fmt.Println(SumNumMap[1].num++)
+	result = make([]int64,len(arr))
+	for k,v := range arr {
+		if _,ok := sumNumMap[v];!ok {
+			sumNumMap[v] = make([]int,0)
+		}
+		sumNumMap[v] = append(sumNumMap[v],k)
+	}
+	for _,v :=range sumNumMap {
+		setR(v)
+	}
+	return result
+}
+
+func setR(arr []int)  {
+	if len(arr) ==1 {
+		return
+	}
+	preSumS := preSum(arr)
+	n := len(arr)
+	for k,v := range arr {
+		result[v] = preSumS[n-1]-preSumS[k] - preSumS[k]+int64(v) + int64(k-(n-k-1))*int64(v)
+	}
 
 }
 
-func getDistances(arr []int) []int64 {
 
-	return nil
+//获取前缀和
+func preSum(arr []int)  []int64{
+	r := make([]int64,len(arr))
+	for k,v := range arr {
+		if k==0 {
+			r[k] = int64(v)
+			continue
+		}
+		r[k] = r[k-1]+int64(v)
+	}
+	return r
 }
