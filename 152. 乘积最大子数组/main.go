@@ -1,12 +1,14 @@
 package main
 
+import "fmt"
+
 //给你一个整数数组 nums ，请你找出数组中乘积最大的非空连续子数组（该子数组中至少包含一个数字），并返回该子数组所对应的乘积。
 //
 //测试用例的答案是一个 32-位 整数。
 //
 //子数组 是数组的连续子序列。
 //
-// 
+//
 //
 //示例 1:
 //
@@ -18,7 +20,7 @@ package main
 //输入: nums = [-2,0,-1]
 //输出: 0
 //解释: 结果不能为 2, 因为 [-2,-1] 不是子数组。
-// 
+//
 //
 //提示:
 //
@@ -30,27 +32,42 @@ package main
 //链接：https://leetcode-cn.com/problems/maximum-product-subarray
 //著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 func main() {
-
+	fmt.Println(maxProduct([]int{-2, 0, -1}))
 }
 
-//状态转移
 func maxProduct(nums []int) int {
-	result := 0
-	lastX :=1
-	for i:=0;i<len(nums);i++ {
-		if(nums[i]) == 0 {
-			result = max(lastX,result)
+	result := nums[0]
+	if len(nums) == 1 {
+		return result
+	}
+	//从左到右
+	lastX := 1
+	for i := 0; i < len(nums); i++ {
+		if nums[i] == 0 {
 			lastX = 1
+			result = max(result, 0)
+			continue
 		}
+		lastX *= nums[i]
+		result = max(result, lastX)
 	}
-	for i:=len(nums)-1;i>=0;i-- {
+	//从右到左
+	lastX = 1
+	for i := len(nums) - 1; i >= 0; i-- {
+		if nums[i] == 0 {
+			lastX = 1
+			result = max(result, 0)
+			continue
+		}
+		lastX *= nums[i]
+		result = max(result, lastX)
+	}
 
-	}
 	return result
 }
 
-func max(a,b int) int {
-	if a<b {
+func max(a, b int) int {
+	if a < b {
 		return b
 	}
 	return a
