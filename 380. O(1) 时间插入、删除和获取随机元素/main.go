@@ -93,14 +93,12 @@ func (this *RandomizedSet) Remove(val int) bool {
 	if !ok{
 		return false
 	}
-	delete(this.m,val)
-	if index == len(this.r)-1 {
-		this.r = this.r[0:len(this.r)-1]
-	}else {
-		//把最后一位移动过来，并删除最后一位
-		this.r[index] = this.r[len(this.r)-1]
-		this.m[this.r[index]] = index
-	}
+	last := len(this.r) - 1
+	this.r[index] = this.r[last]
+	this.m[this.r[index]] = index
+	this.r = this.r[:last]
+	delete(this.m, val)
+
 	return true
 }
 
