@@ -67,7 +67,7 @@ type zeros struct {
 	index int
 }
 
-//并不是这样的,一件事做到一半，开始做另外一件，不适用
+
 func minimumTime(n int, relations [][]int, time []int) int {
 	inDegree := make(map[int]int,n)
 
@@ -85,7 +85,6 @@ func minimumTime(n int, relations [][]int, time []int) int {
 	}
 
 
-	//找出所有入度为0的，然后更新，循环
 	result := 0
 	zeross := make([]zeros,0)
 	for key,num := range inDegree{
