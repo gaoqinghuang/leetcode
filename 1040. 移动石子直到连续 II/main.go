@@ -1,13 +1,9 @@
 package main
 
 import (
-	"bytes"
-	"crypto/md5"
-	"encoding/hex"
 	"fmt"
 	"math"
 	"sort"
-	"strings"
 )
 
 //
@@ -58,52 +54,6 @@ func main() {
 	fmt.Println(numMovesStonesII([]int{7, 4, 9}))
 	fmt.Println(numMovesStonesII([]int{6, 5, 4, 3, 10}))
 	fmt.Println(numMovesStonesII([]int{100, 101, 104, 102, 103}))
-}
-
-type PaySign struct {
-	ApiKey string
-	Params map[string]string
-}
-
-// 签名
-func (p *PaySign) Sign() string {
-	// 创建切片
-	var keys = make([]string, 0, len(p.Params))
-	// 遍历签名参数
-	for k := range p.Params {
-		if k != "sign" { // 排除sign字段
-			keys = append(keys, k)
-		}
-	}
-	// 由于切片的元素顺序是不固定，所以这里强制给切片元素加个顺序
-	sort.Strings(keys)
-	//创建字符缓冲
-	var buf bytes.Buffer
-	for _, k := range keys {
-		str, _ := p.Params[k]
-		// str == "0"，进行过滤，兼容下php
-		//if ($k != 'sign' && $v != '' && !is_array($v)) {
-		//  	$str    .= $k.'='.$v.'&';
-		// }
-		if len(str) > 0 && str != "0" {
-			buf.WriteString(k)
-			buf.WriteString(`=`)
-			buf.WriteString(str)
-			buf.WriteString(`&`)
-		}
-	}
-	// 加入apiKey作加密密钥
-	buf.WriteString(`key=`)
-	buf.WriteString(p.ApiKey)
-	var (
-		dataMd5 [16]byte
-		str     string
-	)
-
-	dataMd5 = md5.Sum(buf.Bytes())
-	str = hex.EncodeToString(dataMd5[:]) //需转换成切片
-
-	return strings.ToUpper(str)
 }
 
 func numMovesStonesII(stones []int) []int {
